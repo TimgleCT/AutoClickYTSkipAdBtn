@@ -1,0 +1,27 @@
+{
+    "manifest_version": 3,
+    "name": "自動點擊 YouTube 略過廣告按鈕",
+    "version": "1.0",
+    "permissions": [
+      "activeTab"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["*://www.youtube.com/*"],
+        "js": ["content.js"]
+      }
+    ],
+    "action": {
+      "default_icon": {
+        "16": "assets/click-here-16.png",
+        "48": "assets/click-here-64.png",
+        "128": "assets/click-here-128.png"
+      }
+    },
+    "icons": {
+      "16": "assets/click-here-16.png",
+      "48": "assets/click-here-64.png",
+      "128": "assets/click-here-128.png"
+    }
+  }
+  
