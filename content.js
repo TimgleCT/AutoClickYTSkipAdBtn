@@ -1,17 +1,54 @@
-// 定義一個函數，用於點擊略過廣告按鈕
-function clickSkipButton(skipButton) {
+function clickSkipButton() {
+    // 檢查節點是否包含略過廣告按鈕
+    const skipButton = document.querySelector('.ytp-ad-skip-button.ytp-button');
     if (skipButton) {
-        skipButton.click(); // 點擊略過廣告按鈕
+        // 點擊略過廣告按鈕
+        skipButton.click(); 
+        console.log(new Date(), '自動點擊廣告');
+        return true;
     }
+    return false;
+}
+
+var hasAddListener = false;
+function moveToLastSecond(video){
+    // 移至廣告片尾
+    console.log(new Date(), '略過不可點擊廣告');
+    video.currentTime = video.duration;
+    hasAddListener = true;
+}
+function endAd(video){
+    video.removeEventListener('canplay', moveToLastSecond);
+    hasAddListener = false;
+    video.removeEventListener('ended', endAd);
+}
+
+
+function skipAdWithoutBtn() {
+    const checkAdWithoutBtn = document.querySelector('.ytp-ad-player-overlay');
+    if (checkAdWithoutBtn) {
+        if (!hasAddListener) {
+            const video = document.querySelector('video');
+            video.addEventListener('canplay', moveToLastSecond(video));
+            video.addEventListener("ended", endAd(video));
+        }
+        return true;
+    }
+    return false;
 }
 
 // 使用Mutation Observer來監視DOM變化
 const observer = new MutationObserver(mutationsList => {
     for (const mutation of mutationsList) {
-        // 檢查新增的節點是否包含略過廣告按鈕
         if (mutation.addedNodes.length > 0) {
-            const skipButton = document.querySelector('.ytp-ad-skip-button.ytp-button');
-            clickSkipButton(skipButton);
+            const hasSkipBtn = clickSkipButton();
+            if (hasSkipBtn){
+                break;
+            }
+            const hasAdWithoutBtn = skipAdWithoutBtn();
+            if (hasAdWithoutBtn){
+                break;
+            }
         }
     }
 });
