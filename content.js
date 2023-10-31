@@ -9,39 +9,54 @@ class YouTubeAdSkipper {
         for (const mutation of mutationsList) {
             if (mutation.addedNodes.length > 0) {
                 const hasSkipBtn = this.clickSkipButton();
-                if (hasSkipBtn){
+                if (hasSkipBtn) {
                     break;
                 }
                 const hasAdWithoutBtn = this.skipAdWithoutBtn();
-                if (hasAdWithoutBtn){
+                if (hasAdWithoutBtn) {
                     break;
                 }
             }
         }
     }
-    clickSkipButton(){
+    clickSkipButton() {
         const skipButton = document.querySelector('.ytp-ad-skip-button.ytp-button');
         if (skipButton) {
-            skipButton.click(); 
+            skipButton.click();
             console.log(new Date(), '自動點擊廣告');
+            this.record('skipAd', 5);
             return true;
         }
         return false;
     }
-    skipAdWithoutBtn(){
+    skipAdWithoutBtn() {
         const checkAdWithoutBtn = document.querySelector('.ytp-ad-player-overlay');
         if (checkAdWithoutBtn && !this.hasAddListener) {
             const video = document.querySelector('video');
-            video.addEventListener('canplay', this.moveToLastSecond(video), { once: true });
-            video.addEventListener('ended', () => { this.hasAddListener = false; }, { once: true });
+            video.addEventListener('canplay', this.moveToLastSecond(video));
+            video.addEventListener('ended', this.endAd(video));
             return true;
         }
         return false;
     }
-    moveToLastSecond(video){
-        console.log(new Date(), '略過不可點擊廣告');
-        video.currentTime = video.duration;
-        this.hasAddListener = true;
+    moveToLastSecond(video) {
+        if (video.currentTime !== video.duration) {
+            console.log(new Date(), '略過不可點擊廣告');
+            this.record('unableSkipAd', video.duration);
+            video.currentTime = video.duration;
+            this.hasAddListener = true;
+        }
+    }
+    endAd(video){
+        video.removeEventListener('canplay', this.moveToLastSecond);
+        video.removeEventListener('ended', this.ended);
+        this.hasAddListener = false;
+    }
+    record(type, saveTime){
+        chrome.runtime.sendMessage({ 
+            adType: type,
+            saveTime
+        });
     }
 }
 
