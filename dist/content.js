@@ -5,6 +5,7 @@ class YouTubeAdSkipper {
         this.observer = new MutationObserver(this.handleMutations.bind(this));
         this.observer.observe(document, config);
     }
+
     handleMutations(mutationsList) {
         for (const mutation of mutationsList) {
             if (mutation.addedNodes.length > 0) {
@@ -19,16 +20,18 @@ class YouTubeAdSkipper {
             }
         }
     }
+
     clickSkipButton() {
         const skipButton = document.querySelector('.ytp-ad-skip-button.ytp-button');
         if (skipButton) {
             skipButton.click();
             console.log(new Date(), '自動點擊廣告');
-            this.record('skipAd', 5);
+            this.record('clickAd', 5);
             return true;
         }
         return false;
     }
+
     skipAdWithoutBtn() {
         const checkAdWithoutBtn = document.querySelector('.ytp-ad-player-overlay');
         if (checkAdWithoutBtn && !this.hasAddListener) {
@@ -39,25 +42,30 @@ class YouTubeAdSkipper {
         }
         return false;
     }
+
     moveToLastSecond(video) {
         if (video.currentTime !== video.duration) {
             console.log(new Date(), '略過不可點擊廣告');
-            this.record('unableSkipAd', video.duration);
+            this.record('fixedAd', video.duration);
             video.currentTime = video.duration;
             this.hasAddListener = true;
         }
     }
-    endAd(video){
+
+    endAd(video) {
         video.removeEventListener('canplay', this.moveToLastSecond);
         video.removeEventListener('ended', this.ended);
         this.hasAddListener = false;
     }
-    record(type, saveTime){
-        chrome.runtime.sendMessage({ 
+
+    record(type, saveTime) {
+        chrome.runtime.sendMessage({
             adType: type,
-            saveTime
+            saveTime,
         });
     }
 }
 
 const adSkipper = new YouTubeAdSkipper();
+
+// adSkipper.record('fixedAd', 5);

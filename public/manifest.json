@@ -4,7 +4,8 @@
   "description": "立即自動點擊略過廣告按鈕，並瞬間完成不可略過廣告的播放，無需等待秒數倒數。",
   "version": "1.0",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "content_scripts": [
     {
@@ -16,18 +17,22 @@
       ]
     }
   ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
   "action": {
     "default_popup": "index.html",
     "default_title": "查看已略過廣告統計",
     "default_icon": {
-      "16": "assets/click-here-16.png",
-      "48": "assets/click-here-64.png",
-      "128": "assets/click-here-128.png"
+      "16": "assets/youtube-ad-watcher-64.png",
+      "48": "assets/youtube-ad-watcher-128.png",
+      "128": "assets/youtube-ad-watcher-256.png"
     }
   },
   "icons": {
-    "16": "assets/click-here-16.png",
-    "48": "assets/click-here-64.png",
-    "128": "assets/click-here-128.png"
+    "16": "assets/youtube-ad-watcher-64.png",
+    "48": "assets/youtube-ad-watcher-128.png",
+    "128": "assets/youtube-ad-watcher-256.png"
   }
 }
