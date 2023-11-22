@@ -1,0 +1,24 @@
+{
+  "name": "autoclickytskipbtn",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build-watch": "vite build --watch",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "eslint": "^8.53.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-vue": "^9.18.1",
+    "vite": "^4.4.5"
+  }
+}
