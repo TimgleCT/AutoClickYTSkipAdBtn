@@ -1,25 +1,70 @@
 <script setup>
-defineProps({
-    initNum: {
-        type: Number,
-        default: 0,
+import { ref } from 'vue';
+import ChromeStorageLoader from '../module/ChromeStorageLoader.js';
+
+const props = defineProps({
+    label: {
+        type: String,
+        default: '',
     },
-    label: String,
+    target: {
+        type: String,
+        required: true,
+    },
+    unit: {
+        type: String,
+        default: '個',
+    },
 });
+
+const skipAdCount = ref(0);
+const dataLoader = new ChromeStorageLoader();
+async function getSkipAdCount() {
+    if (chrome.storage) {
+        let skipAdInfo;
+        switch (props.target) {
+        case 'clickAd':
+            skipAdInfo = await dataLoader.getSkipClickAdRecord();
+            break;
+        case 'fixedAd':
+            skipAdInfo = await dataLoader.getSkipFixedAdRecord();
+            break;
+        default:
+            break;
+        }
+        skipAdCount.value = skipAdInfo.length;
+    } else {
+        skipAdCount.value = 6;
+    }
+}
+
+async function init() {
+    await getSkipAdCount();
+}
+
+init();
 </script>
 
 <template>
-  <div class="col py-2">
-    <div class="d-block mx-0 mt-3 mb-3">
-      <span class="countNum">{{ initNum }}</span><span class="parmUnit">個</span>
+  <div class="col mx-2 mt-4 mb-3 py-2 skipAdCounterBox">
+    <div class="d-block mx-0 mt-2 mb-2">
+      <span class="countNum">{{ skipAdCount }}</span><span class="parmUnit"> {{ unit }} </span>
     </div>
-    <div class="d-block mx-0 mb-3">
+    <div class="d-block mx-0 mb-2">
       <span class="label">{{ label }}</span>
     </div>
   </div>
 </template>
 
 <style scoped>
+.skipAdCounterBox{
+  color: white;
+  background-color: #e5ad80;
+  border-radius: 8px;
+}
+.skipAdCounterBox .label{
+  font-size: 0.9rem;
+}
 .countNum{
   font-size: 3.0rem;
   font-weight: bold;

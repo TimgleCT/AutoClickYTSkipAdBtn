@@ -22,7 +22,7 @@ class YouTubeAdSkipper {
     }
 
     clickSkipButton() {
-        const skipButton = document.querySelector('.ytp-ad-skip-button.ytp-button');
+        const skipButton = document.querySelector('.ytp-ad-skip-button.ytp-button') || document.querySelector('.ytp-ad-skip-button-modern.ytp-button');
         if (skipButton) {
             skipButton.click();
             console.log(new Date(), '自動點擊廣告');

@@ -11,7 +11,6 @@ class ChromeMessageManager {
 
     receivedMsgAction(message) {
         if (message.adType === this.observeType) {
-            console.log(this.observeType);
             this.notifyObservers(message.saveTime);
         }
     }

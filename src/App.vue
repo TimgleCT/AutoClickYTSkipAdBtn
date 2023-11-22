@@ -1,33 +1,8 @@
 <script setup>
-import { ref } from 'vue';
 import iconHeader from './components/iconHeader.vue';
 import skipAdCounterBox from './components/skipAdCounterBox.vue';
-
-const skipClickAdCount = ref(0);
-const skipFixedAdCount = ref(0);
-const totalSaveTime = ref(0);
-
-function setSkipInfo() {
-    chrome.storage.local.get('clickAd', (result) => {
-        const data = result.clickAd || null;
-        if (data !== null) {
-            skipClickAdCount.value = data.record.length;
-            totalSaveTime.value += data.record.reduce((a, b) => a + b.saveTime, 0);
-        }
-        // console.log(data);
-    });
-    chrome.storage.local.get('fixedAd', (result) => {
-        const data = result.fixedAd || null;
-        if (data !== null) {
-            skipFixedAdCount.value = data.record.length;
-            totalSaveTime.value += data.record.reduce((a, b) => a + b.saveTime, 0);
-        }
-        // console.log(data);
-    });
-}
-
-setSkipInfo();
-
+import skipAdSaveTimeBox from './components/skipAdSaveTimeBox.vue';
+import skipAdRecord from './components/skipAdRecord.vue';
 </script>
 
 <template>
@@ -39,16 +14,21 @@ setSkipInfo();
     ></iconHeader>
   </div>
   <div class="row">
+    <skipAdSaveTimeBox
+      label="已替您省下"
+    ></skipAdSaveTimeBox>
     <skipAdCounterBox
-      :init-num="skipClickAdCount"
+      target="clickAd"
       label="點擊廣告已被省略"
     ></skipAdCounterBox>
     <skipAdCounterBox
-      :init-num="skipFixedAdCount"
+      target="fixedAd"
       label="固定廣告已被省略"
     ></skipAdCounterBox>
   </div>
-  <div class="row"></div>
+  <div class="row">
+    <skipAdRecord></skipAdRecord>
+  </div>
 </div>
 </template>
 
@@ -61,5 +41,9 @@ setSkipInfo();
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
+}
+.container{
+  background-color: #f9ddb9;
+  height: 100%;
 }
 </style>
