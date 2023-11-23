@@ -20,7 +20,7 @@ YouTube Ad Watcher 是一個Chrome擴充套件，旨在提升使用YouTube的體
 
 1. 下載插件壓縮檔（未封裝）到本地，並解壓縮
    
-	- 壓縮檔：[YouTubeAdWatcher_1.0.zip](https://github.com/TimgleCT/AutoClickYTSkipAdBtn/files/13450951/YouTubeAdWatcher_1.0.zip)
+	- 壓縮檔：[YouTubeAdWatcher_1.0.zip](https://github.com/TimgleCT/AutoClickYTSkipAdBtn/files/13451246/YouTubeAdWatcher_1.0.zip)
 
 4. 打開 Chrome 瀏覽器
 5. 在瀏覽器地址欄輸入 `chrome://extensions/` 並按 Enter
