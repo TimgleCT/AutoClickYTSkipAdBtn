@@ -40,7 +40,7 @@ YouTube Ad Watcher 是一個Chrome擴充套件，旨在提升使用YouTube的體
 
 	![image](https://github.com/TimgleCT/AutoClickYTSkipAdBtn/assets/26117212/3869ecc2-47a7-48cf-9986-9e0e5345e378)
 
-   ![image](https://github.com/TimgleCT/AutoClickYTSkipAdBtn/assets/26117212/d76a3a26-cf45-4230-b481-94c52af45767)	
+	![image](https://github.com/TimgleCT/AutoClickYTSkipAdBtn/assets/26117212/d76a3a26-cf45-4230-b481-94c52af45767)	
 	
 11. 若在無恆模式也有使用的需求需開啟「允許在無痕模式執行」
 
