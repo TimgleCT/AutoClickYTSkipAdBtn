@@ -3,6 +3,9 @@ import iconHeader from './components/iconHeader.vue';
 import skipAdCounterBox from './components/skipAdCounterBox.vue';
 import skipAdSaveTimeBox from './components/skipAdSaveTimeBox.vue';
 import skipAdRecord from './components/skipAdRecord.vue';
+import infoTabs from './components/infoTabs.vue';
+import stackBarChart from './components/stackBarChart.vue';
+import skipAdBarChart from './components/skipAdBarChart.vue';
 </script>
 
 <template>
@@ -27,7 +30,19 @@ import skipAdRecord from './components/skipAdRecord.vue';
     ></skipAdCounterBox>
   </div>
   <div class="row">
-    <skipAdRecord></skipAdRecord>
+    <infoTabs
+      :tabs="[
+        {
+          title: '本週紀錄',
+          component: skipAdBarChart,
+        },
+        {
+          title: '所有紀錄',
+          component: skipAdRecord,
+        }
+      ]"
+    >
+    </infoTabs>
   </div>
 </div>
 </template>

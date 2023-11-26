@@ -9,7 +9,7 @@ class YouTubeAdSkipper {
     handleMutations(mutationsList) {
         for (const mutation of mutationsList) {
             if (mutation.addedNodes.length > 0) {
-                const hasSkipBtn = this.clickSkipButton();
+                const hasSkipBtn = YouTubeAdSkipper.clickSkipButton();
                 if (hasSkipBtn) {
                     break;
                 }
@@ -21,12 +21,12 @@ class YouTubeAdSkipper {
         }
     }
 
-    clickSkipButton() {
+    static clickSkipButton() {
         const skipButton = document.querySelector('.ytp-ad-skip-button.ytp-button') || document.querySelector('.ytp-ad-skip-button-modern.ytp-button');
         if (skipButton) {
             skipButton.click();
             console.log(new Date(), '自動點擊廣告');
-            this.record('clickAd', 5);
+            YouTubeAdSkipper.record('clickAd', 5);
             return true;
         }
         return false;
@@ -43,13 +43,24 @@ class YouTubeAdSkipper {
         return false;
     }
 
-    moveToLastSecond(video) {
+    async moveToLastSecond(video) {
         if (video.currentTime !== video.duration) {
-            console.log(new Date(), '略過不可點擊廣告');
-            this.record('fixedAd', video.duration);
+            const videoDuration = await YouTubeAdSkipper.getVideoDuration(video);
+            console.log(new Date(), '略過不可點擊廣告', videoDuration);
             video.currentTime = video.duration;
             this.hasAddListener = true;
+            YouTubeAdSkipper.record('fixedAd', videoDuration);
         }
+    }
+
+    static async getVideoDuration(video) {
+        while (Number.isNaN(video.duration) || video.duration === Infinity) {
+            // eslint-disable-next-line no-await-in-loop
+            console.log(video.duration);
+            await new Promise((resolve) => { setTimeout(resolve, 50); });
+            console.log(video.duration);
+        }
+        return video.duration;
     }
 
     endAd(video) {
@@ -58,7 +69,7 @@ class YouTubeAdSkipper {
         this.hasAddListener = false;
     }
 
-    record(type, saveTime) {
+    static record(type, saveTime) {
         chrome.runtime.sendMessage({
             adType: type,
             saveTime,

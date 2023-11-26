@@ -45,6 +45,33 @@ class DateTimeHelper {
         }
         return result;
     }
+
+    static getThisWeekDates() {
+        const today = new Date();
+        const currentDay = today.getDay(); // 0表示星期日，1表示星期一，以此類推
+
+        const mondayDiff = currentDay === 0 ? 6 : currentDay - 1;
+        const sundayDiff = currentDay === 0 ? 0 : 7 - currentDay;
+
+        const monday = new Date(today);
+        monday.setDate(today.getDate() - mondayDiff);
+
+        const sunday = new Date(today);
+        sunday.setDate(today.getDate() + sundayDiff);
+
+        const weekDates = [];
+
+        for (let i = 0; i < 6; i++) {
+            const currentDate = new Date(monday);
+            currentDate.setDate(monday.getDate() + i);
+            weekDates.push(currentDate.toISOString().slice(0, 10)); // 格式為 YYYY-MM-DD
+        }
+
+        // 添加今天的日期
+        weekDates.push(today.toISOString().slice(0, 10));
+
+        return weekDates;
+    }
 }
 
 export default DateTimeHelper;

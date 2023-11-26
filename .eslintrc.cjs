@@ -25,6 +25,7 @@ module.exports = {
         'import/extensions': ['error', 'never', { js: 'always' }],
         'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
         'no-global-assign': ['error', { exceptions: ['vm'] }],
+        'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     },
     globals: {
         chrome: true,

@@ -90,7 +90,7 @@ init();
 </script>
 
 <template>
-  <div class="col-12 ps-2 pe-1 pt-3 skipAdRecord overflow-auto">
+  <div class="col-12 ps-1 pe-1 pt-2 skipAdRecord overflow-auto">
     <div class="d-block mx-0">
         <div class="row mx-0 tableTitle">
             <div class="col-2">No.</div>
@@ -102,7 +102,7 @@ init();
                 <div class="col-2"> {{ records.length - index }}</div>
                 <!-- <div class="col-2"> {{ record.adType }}</div> -->
                 <div class="col-4">{{ record.saveTime }}</div>
-                <div class="col-6">{{ record.recordTime }}</div>
+                <div class="col-6 px-2">{{ record.recordTime }}</div>
             </div>
         </div>
     </div>
@@ -110,6 +110,10 @@ init();
 </template>
 
 <style scoped>
+.skipAdRecord,
+.skipAdRecord > div{
+    height: 100%;
+}
 .tableTitle,
 .tableContentRow{
     border-bottom: 1px solid rgb(236, 163, 103);
@@ -127,10 +131,13 @@ init();
     font-size: 0.8rem;
     color:#c57b4f;
     padding: 0.25rem 0;
+    background-color: #f9ddb9;
 }
 
 .tableContent{
-    max-height: 190px;
+    max-height: calc(100% - 40px);
+    border-end-end-radius: 8px;
+    border-end-start-radius: 8px;
 }
 
 /* width */
