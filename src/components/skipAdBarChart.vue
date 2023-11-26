@@ -31,16 +31,25 @@ async function init() {
     if (chrome.storage) {
         const skipClickAdRecord = await dataLoader.getSkipClickAdRecord();
         const skipFixedAdRecord = await dataLoader.getSkipFixedAdRecord();
-        const skipClickAdRecordWithDatetime = skipClickAdRecord.map((adRecord) => new Date(JSON.parse(adRecord.recordTime)));
-        const skipFixedAdRecordWithDatetime = skipFixedAdRecord.map((adRecord) => new Date(JSON.parse(adRecord.recordTime)));
         const thisWeekDatesObj = thisWeekDates.value.map((ele) => new Date(ele));
-        const thisWeekSkipClickAdRecords = categorizeDates(thisWeekDatesObj, skipClickAdRecordWithDatetime);
-        const thisWeekSkipFixedAdRecords = categorizeDates(thisWeekDatesObj, skipFixedAdRecordWithDatetime);
+        let thisWeekSkipClickAdRecords = null;
+        let thisWeekSkipFixedAdRecords = null;
+
+        if (skipClickAdRecord.length > 0) {
+            const skipClickAdRecordWithDatetime = skipClickAdRecord.map((adRecord) => new Date(JSON.parse(adRecord.recordTime)));
+            thisWeekSkipClickAdRecords = categorizeDates(thisWeekDatesObj, skipClickAdRecordWithDatetime);
+        }
+
+        if (skipFixedAdRecord.length > 0) {
+            const skipFixedAdRecordWithDatetime = skipFixedAdRecord.map((adRecord) => new Date(JSON.parse(adRecord.recordTime)));
+            thisWeekSkipFixedAdRecords = categorizeDates(thisWeekDatesObj, skipFixedAdRecordWithDatetime);
+        }
+
         const thisWeekSkipClickAdCount = [];
         const thisWeekSkipFixedAdCount = [];
         thisWeekDates.value.forEach((date) => {
-            thisWeekSkipClickAdCount.push(thisWeekSkipClickAdRecords[date].length);
-            thisWeekSkipFixedAdCount.push(thisWeekSkipFixedAdRecords[date].length);
+            thisWeekSkipClickAdCount.push((thisWeekSkipClickAdRecords) ? thisWeekSkipClickAdRecords[date].length : 0);
+            thisWeekSkipFixedAdCount.push((thisWeekSkipFixedAdRecords) ? thisWeekSkipFixedAdRecords[date].length : 0);
         });
         yData.value = [
             {
@@ -52,7 +61,6 @@ async function init() {
                 data: thisWeekSkipFixedAdCount,
             },
         ];
-        console.log(yData.value);
     }
 }
 
@@ -67,8 +75,15 @@ init();
             :x-data="thisWeekDates"
             :y-data="yData"
         ></stackBarChart>
+        <div v-else class="d-flex justify-content-center align-items-center w-100 h-100">
+            <span class="noDataLabel">暫無資料</span>
+        </div>
     </div>
 </template>
 
 <style scoped>
+.noDataLabel{
+    color: white;
+    font-size: 1.5rem;
+}
 </style>

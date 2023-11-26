@@ -4,7 +4,6 @@ import skipAdCounterBox from './components/skipAdCounterBox.vue';
 import skipAdSaveTimeBox from './components/skipAdSaveTimeBox.vue';
 import skipAdRecord from './components/skipAdRecord.vue';
 import infoTabs from './components/infoTabs.vue';
-import stackBarChart from './components/stackBarChart.vue';
 import skipAdBarChart from './components/skipAdBarChart.vue';
 </script>
 

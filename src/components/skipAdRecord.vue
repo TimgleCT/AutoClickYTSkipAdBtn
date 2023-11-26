@@ -98,11 +98,16 @@ init();
             <div class="col-6">廣告時間</div>
         </div>
         <div class="tableContent overflow-auto">
-            <div v-for='(record, index) in records' :key="index" class="row mx-0 tableContentRow">
-                <div class="col-2"> {{ records.length - index }}</div>
-                <!-- <div class="col-2"> {{ record.adType }}</div> -->
-                <div class="col-4">{{ record.saveTime }}</div>
-                <div class="col-6 px-2">{{ record.recordTime }}</div>
+            <template v-if="records.length > 0">
+                <div v-for='(record, index) in records' :key="index" class="row mx-0 tableContentRow">
+                    <div class="col-2"> {{ records.length - index }}</div>
+                    <!-- <div class="col-2"> {{ record.adType }}</div> -->
+                    <div class="col-4">{{ record.saveTime }}</div>
+                    <div class="col-6 px-2">{{ record.recordTime }}</div>
+                </div>
+            </template>
+            <div v-else class="d-flex justify-content-center align-items-center w-100 h-100">
+                <span class="noDataLabel">暫無資料</span>
             </div>
         </div>
     </div>
@@ -135,7 +140,7 @@ init();
 }
 
 .tableContent{
-    max-height: calc(100% - 40px);
+    height: calc(100% - 40px);
     border-end-end-radius: 8px;
     border-end-start-radius: 8px;
 }
@@ -160,5 +165,9 @@ init();
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #eca50b;
+}
+.noDataLabel{
+    color: white;
+    font-size: 1.2rem;
 }
 </style>
