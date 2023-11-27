@@ -61,14 +61,11 @@ class DateTimeHelper {
 
         const weekDates = [];
 
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 7; i++) {
             const currentDate = new Date(monday);
             currentDate.setDate(monday.getDate() + i);
             weekDates.push(currentDate.toISOString().slice(0, 10)); // 格式為 YYYY-MM-DD
         }
-
-        // 添加今天的日期
-        weekDates.push(today.toISOString().slice(0, 10));
 
         return weekDates;
     }
