@@ -1,6 +1,6 @@
 <script setup>
 import {
-    ref, onMounted, onUnmounted,
+    ref, onMounted, onUnmounted, watch,
 } from 'vue';
 import * as echarts from 'echarts/core.js';
 import {
@@ -38,6 +38,7 @@ const props = defineProps({
         default: '個',
     },
 });
+
 const chart = ref(null);
 let chartInstance = null;
 const option = ref({
@@ -63,7 +64,7 @@ const option = ref({
     },
     xAxis: {
         type: 'category',
-        data: props.xData,
+        data: null,
     },
     yAxis: {
         type: 'value',
@@ -71,8 +72,12 @@ const option = ref({
     series: [],
 });
 
-const processSeriesData = () => {
-    const series = props.yData.map((ele) => ({
+function setXAxis() {
+    option.value.xAxis.data = props.xData;
+}
+
+function setSeries() {
+    const series = JSON.parse(JSON.stringify(props.yData)).map((ele) => ({
         data: ele.data,
         type: 'bar',
         stack: 'a',
@@ -125,13 +130,19 @@ const processSeriesData = () => {
     }
 
     option.value.series = series;
-};
+}
+
+function drawChart() {
+    setXAxis();
+    setSeries();
+    if (!chartInstance) {
+        chartInstance = echarts.init(chart.value);
+    }
+    chartInstance.setOption(option.value);
+}
 
 onMounted(() => {
-    processSeriesData();
-    chartInstance = echarts.init(chart.value);
-    chartInstance.setOption(option.value);
-
+    drawChart();
     window.addEventListener('resize', () => {
         chartInstance.resize();
     });
@@ -143,6 +154,16 @@ onUnmounted(() => {
         chartInstance.dispose();
     }
 });
+
+watch(
+    () => [props.xData, props.yData],
+    () => {
+        if (chartInstance) {
+            drawChart();
+        }
+    },
+    { deep: true },
+);
 
 </script>
 

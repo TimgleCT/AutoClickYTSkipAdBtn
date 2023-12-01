@@ -43,9 +43,9 @@ class YouTubeAdSkipper {
         return false;
     }
 
-    async moveToLastSecond(video) {
+    moveToLastSecond(video) {
         if (video.currentTime !== video.duration) {
-            const videoDuration = await YouTubeAdSkipper.getVideoDuration(video);
+            const videoDuration = YouTubeAdSkipper.getVideoDuration(video);
             console.log(new Date(), '略過不可點擊廣告', videoDuration);
             video.currentTime = video.duration;
             this.hasAddListener = true;
@@ -53,14 +53,8 @@ class YouTubeAdSkipper {
         }
     }
 
-    static async getVideoDuration(video) {
-        while (Number.isNaN(video.duration) || video.duration === Infinity) {
-            // eslint-disable-next-line no-await-in-loop
-            console.log(video.duration);
-            await new Promise((resolve) => { setTimeout(resolve, 50); });
-            console.log(video.duration);
-        }
-        return video.duration;
+    static getVideoDuration(video) {
+        return (Number.isNaN(video.duration) || video.duration === Infinity) ? null : video.duration;
     }
 
     endAd(video) {
@@ -78,5 +72,3 @@ class YouTubeAdSkipper {
 }
 
 const adSkipper = new YouTubeAdSkipper();
-
-// adSkipper.record('fixedAd', 5);

@@ -32,7 +32,7 @@ import skipAdBarChart from './components/skipAdBarChart.vue';
     <infoTabs
       :tabs="[
         {
-          title: '本週紀錄',
+          title: '各週紀錄',
           component: skipAdBarChart,
         },
         {

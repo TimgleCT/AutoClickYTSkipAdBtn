@@ -46,18 +46,17 @@ class DateTimeHelper {
         return result;
     }
 
-    static getThisWeekDates() {
-        const today = new Date();
-        const currentDay = today.getDay(); // 0表示星期日，1表示星期一，以此類推
+    static getThisWeekDates(weekOffset = 0, startDate = new Date()) {
+        const currentDay = startDate.getDay(); // 0表示星期日，1表示星期一，以此類推
 
         const mondayDiff = currentDay === 0 ? 6 : currentDay - 1;
         const sundayDiff = currentDay === 0 ? 0 : 7 - currentDay;
 
-        const monday = new Date(today);
-        monday.setDate(today.getDate() - mondayDiff);
+        const monday = new Date(startDate);
+        monday.setDate(startDate.getDate() - mondayDiff - 7 * weekOffset);
 
-        const sunday = new Date(today);
-        sunday.setDate(today.getDate() + sundayDiff);
+        const sunday = new Date(startDate);
+        sunday.setDate(startDate.getDate() + sundayDiff - 7 * weekOffset);
 
         const weekDates = [];
 
