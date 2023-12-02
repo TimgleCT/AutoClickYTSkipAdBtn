@@ -1,10 +1,9 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, inject } from 'vue';
 import DateHelper from '../module/DateTimeHelper.js';
-import ChromeStorageLoader from '../module/ChromeStorageLoader.js';
 
 const records = reactive([]);
-const dataLoader = new ChromeStorageLoader();
+const dataLoader = inject('dataLoader');
 
 async function getSkipAdRecord() {
     if (chrome.storage) {

@@ -60,9 +60,6 @@ const activateTab = (index) => {
 </template>
 
 <style scoped>
-.infoTabs{
-  /* height: 250px; */
-}
 .infoTabs .tab-content{
   height: 215px;
   overflow: auto;

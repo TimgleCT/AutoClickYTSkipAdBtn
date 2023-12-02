@@ -1,7 +1,6 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import DateHelper from '../module/DateTimeHelper.js';
-import ChromeStorageLoader from '../module/ChromeStorageLoader.js';
 
 defineProps({
     label: {
@@ -13,7 +12,7 @@ defineProps({
 const saveHours = ref(0);
 const saveMinutes = ref(0);
 const saveSeconds = ref(0);
-const dataLoader = new ChromeStorageLoader();
+const dataLoader = inject('dataLoader');
 
 async function getSaveTime() {
     const saveTime = ref(0);

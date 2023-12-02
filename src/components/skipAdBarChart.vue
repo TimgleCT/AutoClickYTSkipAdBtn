@@ -1,10 +1,11 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
-import ChromeStorageLoader from '../module/ChromeStorageLoader.js';
+import {
+    computed, ref, watch, inject,
+} from 'vue';
 import stackBarChart from './stackBarChart.vue';
 import DateTimeHelper from '../module/DateTimeHelper.js';
 
-const dataLoader = new ChromeStorageLoader();
+const dataLoader = inject('dataLoader');
 const yData = ref([]);
 const weekOffset = ref(0);
 

@@ -1,6 +1,5 @@
 <script setup>
-import { ref } from 'vue';
-import ChromeStorageLoader from '../module/ChromeStorageLoader.js';
+import { ref, inject } from 'vue';
 
 const props = defineProps({
     label: {
@@ -18,7 +17,7 @@ const props = defineProps({
 });
 
 const skipAdCount = ref(0);
-const dataLoader = new ChromeStorageLoader();
+const dataLoader = inject('dataLoader');
 async function getSkipAdCount() {
     if (chrome.storage) {
         let skipAdInfo;
