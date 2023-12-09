@@ -6,15 +6,12 @@ class SkipAdObserver {
     saveDataToStorage(data) {
         const skipAdInfo = {};
         skipAdInfo[this.type] = data;
-        chrome.storage.local.set(skipAdInfo, () => {
-            // console.log('Data saved:', data);
-        });
+        chrome.storage.local.set(skipAdInfo, () => {});
     }
 
     getDataFromStorage(callback) {
         chrome.storage.local.get(this.type, (result) => {
             const data = result[this.type] || null;
-            // console.log('Retrieved data:', data);
             callback(data);
         });
     }
