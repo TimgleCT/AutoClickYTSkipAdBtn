@@ -1,9 +1,22 @@
 class YouTubeAdSkipper {
+    static skipAdBtnClassList = [
+        '.ytp-skip-ad-button',
+        '.ytp-skip-ad-button-modern',
+        '.ytp-ad-skip-button',
+        '.ytp-ad-skip-button-modern',
+    ];
+
+    static checkAdWithoutBtnList = [
+        '.ytp-ad-player-overlay',
+        '.ytp-ad-avatar-lockup-card',
+        '.ytp-skip-ad',
+    ];
+
     constructor() {
         const config = { childList: true, subtree: true };
         this.hasAddListener = false;
         this.observer = new MutationObserver(this.handleMutations.bind(this));
-        this.observer.observe(document, config);
+        this.observer.observe(document.body, config);
     }
 
     handleMutations(mutationsList) {
@@ -23,7 +36,7 @@ class YouTubeAdSkipper {
     }
 
     static clickSkipButton() {
-        const skipButton = document.querySelector('.ytp-ad-skip-button.ytp-button') || document.querySelector('.ytp-ad-skip-button-modern.ytp-button');
+        const skipButton = document.querySelector(YouTubeAdSkipper.skipAdBtnClassList.join(', '));
         if (skipButton) {
             skipButton.click();
             // eslint-disable-next-line no-console
@@ -35,7 +48,7 @@ class YouTubeAdSkipper {
     }
 
     skipAdWithoutBtn() {
-        const checkAdWithoutBtn = document.querySelector('.ytp-ad-player-overlay');
+        const checkAdWithoutBtn = document.querySelector(YouTubeAdSkipper.checkAdWithoutBtnList.join(', '));
         if (checkAdWithoutBtn && !this.hasAddListener) {
             const video = document.querySelector('video');
             video.addEventListener('canplay', this.moveToLastSecond(video));

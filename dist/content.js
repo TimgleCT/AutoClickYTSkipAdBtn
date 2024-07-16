@@ -1,13 +1,27 @@
 class YouTubeAdSkipper {
+    static skipAdBtnClassList = [
+        '.ytp-skip-ad-button',
+        '.ytp-skip-ad-button-modern',
+        '.ytp-ad-skip-button',
+        '.ytp-ad-skip-button-modern',
+    ];
+
+    static checkAdWithoutBtnList = [
+        '.ytp-ad-player-overlay',
+        '.ytp-ad-avatar-lockup-card',
+        '.ytp-skip-ad',
+    ];
+
     constructor() {
         const config = { childList: true, subtree: true };
         this.hasAddListener = false;
         this.observer = new MutationObserver(this.handleMutations.bind(this));
-        this.observer.observe(document, config);
+        this.observer.observe(document.body, config);
     }
 
     handleMutations(mutationsList) {
-        for (const mutation of mutationsList) {
+        for (let i = 0; i < mutationsList.length; i++) {
+            const mutation = mutationsList[i];
             if (mutation.addedNodes.length > 0) {
                 const hasSkipBtn = YouTubeAdSkipper.clickSkipButton();
                 if (hasSkipBtn) {
@@ -22,9 +36,10 @@ class YouTubeAdSkipper {
     }
 
     static clickSkipButton() {
-        const skipButton = document.querySelector('.ytp-ad-skip-button.ytp-button') || document.querySelector('.ytp-ad-skip-button-modern.ytp-button');
+        const skipButton = document.querySelector(YouTubeAdSkipper.skipAdBtnClassList.join(', '));
         if (skipButton) {
             skipButton.click();
+            // eslint-disable-next-line no-console
             console.log(new Date(), '自動點擊廣告');
             YouTubeAdSkipper.record('clickAd', 5);
             return true;
@@ -33,7 +48,7 @@ class YouTubeAdSkipper {
     }
 
     skipAdWithoutBtn() {
-        const checkAdWithoutBtn = document.querySelector('.ytp-ad-player-overlay');
+        const checkAdWithoutBtn = document.querySelector(YouTubeAdSkipper.checkAdWithoutBtnList.join(', '));
         if (checkAdWithoutBtn && !this.hasAddListener) {
             const video = document.querySelector('video');
             video.addEventListener('canplay', this.moveToLastSecond(video));
@@ -46,7 +61,9 @@ class YouTubeAdSkipper {
     moveToLastSecond(video) {
         if (video.currentTime !== video.duration) {
             const videoDuration = YouTubeAdSkipper.getVideoDuration(video);
+            // eslint-disable-next-line no-console
             console.log(new Date(), '略過不可點擊廣告', videoDuration);
+            // eslint-disable-next-line no-param-reassign
             video.currentTime = video.duration;
             this.hasAddListener = true;
             YouTubeAdSkipper.record('fixedAd', videoDuration);
@@ -71,4 +88,5 @@ class YouTubeAdSkipper {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 const adSkipper = new YouTubeAdSkipper();
